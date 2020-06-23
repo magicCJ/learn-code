@@ -378,7 +378,6 @@ public class SpringApplication {
 		ConfigurationPropertySources.attach(environment);
 		return environment;
 	}
-
 	private Class<? extends StandardEnvironment> deduceEnvironmentClass() {
 		switch (this.webApplicationType) {
 		case SERVLET:
@@ -436,6 +435,7 @@ public class SpringApplication {
 		refresh(context);
 		if (this.registerShutdownHook) {
 			try {
+				//注册当前上下文关闭的钩子函数
 				context.registerShutdownHook();
 			}
 			catch (AccessControlException ex) {

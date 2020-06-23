@@ -148,8 +148,10 @@ public class ServletWebServerApplicationContext extends GenericWebApplicationCon
 
 	@Override
 	protected void onRefresh() {
+		//创建主题对象
 		super.onRefresh();
 		try {
+			//开始创建web服务
 			createWebServer();
 		}
 		catch (Throwable ex) {
@@ -160,8 +162,10 @@ public class ServletWebServerApplicationContext extends GenericWebApplicationCon
 	@Override
 	protected void finishRefresh() {
 		super.finishRefresh();
+		//启动webServer
 		WebServer webServer = startWebServer();
 		if (webServer != null) {
+			//发布webServer初始化完成事件
 			publishEvent(new ServletWebServerInitializedEvent(webServer, this));
 		}
 	}
@@ -169,6 +173,7 @@ public class ServletWebServerApplicationContext extends GenericWebApplicationCon
 	@Override
 	protected void onClose() {
 		super.onClose();
+		//停止并释放web服务
 		stopAndReleaseWebServer();
 	}
 
@@ -176,7 +181,9 @@ public class ServletWebServerApplicationContext extends GenericWebApplicationCon
 		WebServer webServer = this.webServer;
 		ServletContext servletContext = getServletContext();
 		if (webServer == null && servletContext == null) {
+			//获取servletWebServerFactory,从上下文注册bean中可以找到
 			ServletWebServerFactory factory = getWebServerFactory();
+			//获取servletContextInitializer,获取webServer
 			this.webServer = factory.getWebServer(getSelfInitializer());
 		}
 		else if (servletContext != null) {
@@ -221,8 +228,10 @@ public class ServletWebServerApplicationContext extends GenericWebApplicationCon
 	}
 
 	private void selfInitialize(ServletContext servletContext) throws ServletException {
+		//使用给定的完全加载的servletContext准备WebApplicationContext
 		prepareWebApplicationContext(servletContext);
 		registerApplicationScope(servletContext);
+		//使用给定的BeanFactory注册特定于web的作用域bean（contextParameters,contextAttributes）
 		WebApplicationContextUtils.registerEnvironmentBeans(getBeanFactory(), servletContext);
 		for (ServletContextInitializer beans : getServletContextInitializerBeans()) {
 			beans.onStartup(servletContext);
@@ -303,6 +312,7 @@ public class ServletWebServerApplicationContext extends GenericWebApplicationCon
 		WebServer webServer = this.webServer;
 		if (webServer != null) {
 			try {
+				//停止web服务
 				webServer.stop();
 				this.webServer = null;
 			}

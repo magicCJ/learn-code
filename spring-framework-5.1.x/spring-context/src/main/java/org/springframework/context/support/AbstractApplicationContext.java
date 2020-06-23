@@ -983,8 +983,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 
 	/**
-	 * Register a shutdown hook with the JVM runtime, closing this context
-	 * on JVM shutdown unless it has already been closed at that time.
+	 * 向JVM运行时注册一个关闭钩子，除非在JVM关闭时关闭它，否则在JVM关闭时将其关闭。
 	 * <p>Delegates to {@code doClose()} for the actual closing procedure.
 	 * @see Runtime#addShutdownHook
 	 * @see #close()
@@ -998,10 +997,12 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 				@Override
 				public void run() {
 					synchronized (startupShutdownMonitor) {
+						//执行关闭方法
 						doClose();
 					}
 				}
 			};
+			//向JVM运行时注册一个关闭钩子，除非在JVM关闭时关闭它，否则在JVM关闭时将其关闭
 			Runtime.getRuntime().addShutdownHook(this.shutdownHook);
 		}
 	}
@@ -1043,8 +1044,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	}
 
 	/**
-	 * Actually performs context closing: publishes a ContextClosedEvent and
-	 * destroys the singletons in the bean factory of this application context.
+	 * 实际执行上下文关闭：发布ContextClosedEvent并破坏此应用程序上下文的bean工厂中的单例。
 	 * <p>Called by both {@code close()} and a JVM shutdown hook, if any.
 	 * @see org.springframework.context.event.ContextClosedEvent
 	 * @see #destroyBeans()
@@ -1078,13 +1078,13 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 				}
 			}
 
-			// Destroy all cached singletons in the context's BeanFactory.
+			// 销毁上下文的BeanFactory中所有缓存的单例。
 			destroyBeans();
 
-			// Close the state of this context itself.
+			// 关闭此上下文本身的状态。
 			closeBeanFactory();
 
-			// Let subclasses do some final clean-up if they wish...
+			// Tomcat关闭方法
 			onClose();
 
 			// Reset local application listeners to pre-refresh state.

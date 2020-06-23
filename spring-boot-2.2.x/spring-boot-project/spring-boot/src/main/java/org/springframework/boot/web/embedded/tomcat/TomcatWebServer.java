@@ -85,6 +85,7 @@ public class TomcatWebServer implements WebServer {
 		Assert.notNull(tomcat, "Tomcat Server must not be null");
 		this.tomcat = tomcat;
 		this.autoStart = autoStart;
+		//初始化
 		initialize();
 	}
 
@@ -92,6 +93,7 @@ public class TomcatWebServer implements WebServer {
 		logger.info("Tomcat initialized with port(s): " + getPortsDescription(false));
 		synchronized (this.monitor) {
 			try {
+				//engineName拼接instanceId
 				addInstanceIdToEngineName();
 
 				Context context = findContext();
@@ -99,14 +101,15 @@ public class TomcatWebServer implements WebServer {
 					if (context.equals(event.getSource()) && Lifecycle.START_EVENT.equals(event.getType())) {
 						// Remove service connectors so that protocol binding doesn't
 						// happen when the service is started.
+						//删除Connectors，以便再启动服务时不发生协议绑定
 						removeServiceConnectors();
 					}
 				});
 
-				// Start the server to trigger initialization listeners
+				// 启动服务器以触发初始化监听器
 				this.tomcat.start();
 
-				// We can re-throw failure exception directly in the main thread
+				// 我们可以直接在主线程中重新抛出失败异常
 				rethrowDeferredStartupExceptions();
 
 				try {
@@ -118,9 +121,11 @@ public class TomcatWebServer implements WebServer {
 
 				// Unlike Jetty, all Tomcat threads are daemon threads. We create a
 				// blocking non-daemon to stop immediate shutdown
+				//所有的tomcat线程都是守护线程，我们创建一个阻塞非守护线程来避免立即关闭
 				startDaemonAwaitThread();
 			}
 			catch (Exception ex) {
+				//异常停止tomcat
 				stopSilently();
 				destroySilently();
 				throw new WebServerException("Unable to start embedded Tomcat", ex);
@@ -148,8 +153,10 @@ public class TomcatWebServer implements WebServer {
 	private void removeServiceConnectors() {
 		for (Service service : this.tomcat.getServer().findServices()) {
 			Connector[] connectors = service.findConnectors().clone();
+			//将将要移除的conntector放到缓存中暂存
 			this.serviceConnectors.put(service, connectors);
 			for (Connector connector : connectors) {
+				//移除connector
 				service.removeConnector(connector);
 			}
 		}
@@ -194,17 +201,21 @@ public class TomcatWebServer implements WebServer {
 				return;
 			}
 			try {
+				//添加之前移除的connector
 				addPreviouslyRemovedConnectors();
 				Connector connector = this.tomcat.getConnector();
 				if (connector != null && this.autoStart) {
+					//延迟加载启动
 					performDeferredLoadOnStartup();
 				}
+				//检查connector启动状态是否为失败，失败抛出异常
 				checkThatConnectorsHaveStarted();
 				this.started = true;
 				logger.info("Tomcat started on port(s): " + getPortsDescription(true) + " with context path '"
 						+ getContextPath() + "'");
 			}
 			catch (ConnectorStartFailedException ex) {
+				//异常停止tomcat
 				stopSilently();
 				throw ex;
 			}
@@ -216,6 +227,7 @@ public class TomcatWebServer implements WebServer {
 			}
 			finally {
 				Context context = findContext();
+				//context解绑classload
 				ContextBindings.unbindClassLoader(context, context.getNamingToken(), getClass().getClassLoader());
 			}
 		}
@@ -272,14 +284,18 @@ public class TomcatWebServer implements WebServer {
 	private void addPreviouslyRemovedConnectors() {
 		Service[] services = this.tomcat.getServer().findServices();
 		for (Service service : services) {
+			//从上面移除connector添加的缓存中取出connector
 			Connector[] connectors = this.serviceConnectors.get(service);
 			if (connectors != null) {
 				for (Connector connector : connectors) {
+					//添加到tomcat service中
 					service.addConnector(connector);
 					if (!this.autoStart) {
+						//如果不是自动启动，则暂停connector
 						stopProtocolHandler(connector);
 					}
 				}
+				//添加完成后移除
 				this.serviceConnectors.remove(service);
 			}
 		}
@@ -298,6 +314,7 @@ public class TomcatWebServer implements WebServer {
 		try {
 			for (Container child : this.tomcat.getHost().findChildren()) {
 				if (child instanceof TomcatEmbeddedContext) {
+					//添加完成后移除
 					((TomcatEmbeddedContext) child).deferredLoadOnStartup();
 				}
 			}
@@ -321,7 +338,9 @@ public class TomcatWebServer implements WebServer {
 			try {
 				this.started = false;
 				try {
+					//停止Tomcat
 					stopTomcat();
+					//执行Tomcat销毁方法，关闭服务
 					this.tomcat.destroy();
 				}
 				catch (LifecycleException ex) {

@@ -498,16 +498,24 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		for (String beanName : this.beanDefinitionNames) {
 			// Only consider bean as eligible if the bean name
 			// is not defined as alias for some other bean.
+			//如果是别名则跳过（当前集合会保存所有的主beanName，并且不会保存别名，别名由beanFactory中aliasMap维护）
 			if (!isAlias(beanName)) {
 				try {
 					//获取合并父子关系的RootBeanDefinition
 					RootBeanDefinition mbd = getMergedLocalBeanDefinition(beanName);
 					// Only check bean definition if it is complete.
+					//抽象的beanDefinition是不做考虑，抽象的就是拿来继承的
+					// 如果允许早期初始化，那么直接短路，进入方法体
+					// 如果不允许早期初始化，那么需要进一步判断
+					// 如果是不允许早期初始化的，并且beanClass已经被加载或者它是可以早期初始化的，那么如果当前bean是工厂bean，
+					// 并且指定的bean又是工厂那么这个bean就必须被早期初始化，也就是说就不符合我们制定的allowEagerInit为false的情况，直接跳过
 					if (!mbd.isAbstract() && (allowEagerInit ||
 							(mbd.hasBeanClass() || !mbd.isLazyInit() || isAllowEagerClassLoading()) &&
 									!requiresEagerInitForType(mbd.getFactoryBeanName()))) {
 						// 对于FactoryBean，请匹配FactoryBean创建的对象。
 						boolean isFactoryBean = isFactoryBean(beanName, mbd);
+						//如果允许早期初始化，那么基本上会调用最后的isTypeMatch方法，这个方法会导致工厂的实例化，
+						//但是当前不允许进行早期实例化在不允许早期实例化的情况下，如果当前bean是工厂bean，那么它只能在已经被创建的情况下调用isTypeMatch进行匹配判断否则只能宣告匹配失败，返回false
 						BeanDefinitionHolder dbd = mbd.getDecoratedDefinition();
 						boolean matchFound =
 								(allowEagerInit || !isFactoryBean ||
@@ -550,6 +558,7 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
 		}
 
 		// Check manually registered singletons too.
+		//从单例注册集合中获取，这个单例集合保存spring内部注入的单例对象，他们的特点就是没有beanDefinition
 		for (String beanName : this.manualSingletonNames) {
 			try {
 				// In case of FactoryBean, match object created by FactoryBean.
