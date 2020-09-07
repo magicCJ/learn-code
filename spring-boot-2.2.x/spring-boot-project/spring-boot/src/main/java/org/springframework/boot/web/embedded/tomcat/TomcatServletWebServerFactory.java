@@ -174,7 +174,7 @@ public class TomcatServletWebServerFactory extends AbstractServletWebServerFacto
 		if (this.disableMBeanRegistry) {
 			Registry.disableRegistry();
 		}
-		//完成tomcat的api调用，构建Server、Service、Connector、Engine、Host、Context
+		//构建Tomcat对象并完成Server、Service、Connector、Engine、Host、Context赋值
 		Tomcat tomcat = new Tomcat();
 		File baseDir = (this.baseDirectory != null) ? this.baseDirectory : createTempDir("tomcat");
 		tomcat.setBaseDir(baseDir.getAbsolutePath());

@@ -183,7 +183,7 @@ public class ServletWebServerApplicationContext extends GenericWebApplicationCon
 		if (webServer == null && servletContext == null) {
 			//获取servletWebServerFactory,从上下文注册bean中可以找到
 			ServletWebServerFactory factory = getWebServerFactory();
-			//获取servletContextInitializer,获取webServer
+			//进行webServer初始化并返回，如：Tomcat、Jetty、undertow等web容器进行初始化操作
 			this.webServer = factory.getWebServer(getSelfInitializer());
 		}
 		else if (servletContext != null) {
