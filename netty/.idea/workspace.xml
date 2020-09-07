@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="1fe3731e-c2d2-4bce-8dd0-cb36ad14002d" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/buffer/src/main/java/io/netty/buffer/ByteBuf.java" beforeDir="false" afterPath="$PROJECT_DIR$/buffer/src/main/java/io/netty/buffer/ByteBuf.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/buffer/src/main/java/io/netty/buffer/ByteBufAllocator.java" beforeDir="false" afterPath="$PROJECT_DIR$/buffer/src/main/java/io/netty/buffer/ByteBufAllocator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/buffer/src/main/java/io/netty/buffer/PoolArena.java" beforeDir="false" afterPath="$PROJECT_DIR$/buffer/src/main/java/io/netty/buffer/PoolArena.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/buffer/src/main/java/io/netty/buffer/PoolChunk.java" beforeDir="false" afterPath="$PROJECT_DIR$/buffer/src/main/java/io/netty/buffer/PoolChunk.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/buffer/src/main/java/io/netty/buffer/PoolChunkList.java" beforeDir="false" afterPath="$PROJECT_DIR$/buffer/src/main/java/io/netty/buffer/PoolChunkList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/buffer/src/main/java/io/netty/buffer/PoolSubpage.java" beforeDir="false" afterPath="$PROJECT_DIR$/buffer/src/main/java/io/netty/buffer/PoolSubpage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/buffer/src/main/java/io/netty/buffer/PoolThreadCache.java" beforeDir="false" afterPath="$PROJECT_DIR$/buffer/src/main/java/io/netty/buffer/PoolThreadCache.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/buffer/src/main/java/io/netty/buffer/PooledByteBufAllocator.java" beforeDir="false" afterPath="$PROJECT_DIR$/buffer/src/main/java/io/netty/buffer/PooledByteBufAllocator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/buffer/src/main/java/io/netty/buffer/PooledUnsafeDirectByteBuf.java" beforeDir="false" afterPath="$PROJECT_DIR$/buffer/src/main/java/io/netty/buffer/PooledUnsafeDirectByteBuf.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/buffer/src/main/java/io/netty/buffer/UnpooledByteBufAllocator.java" beforeDir="false" afterPath="$PROJECT_DIR$/buffer/src/main/java/io/netty/buffer/UnpooledByteBufAllocator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/buffer/src/main/java/io/netty/buffer/UnpooledHeapByteBuf.java" beforeDir="false" afterPath="$PROJECT_DIR$/buffer/src/main/java/io/netty/buffer/UnpooledHeapByteBuf.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/buffer/src/main/java/io/netty/buffer/UnpooledUnsafeDirectByteBuf.java" beforeDir="false" afterPath="$PROJECT_DIR$/buffer/src/main/java/io/netty/buffer/UnpooledUnsafeDirectByteBuf.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/buffer/src/main/java/io/netty/buffer/UnpooledUnsafeHeapByteBuf.java" beforeDir="false" afterPath="$PROJECT_DIR$/buffer/src/main/java/io/netty/buffer/UnpooledUnsafeHeapByteBuf.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/codec/src/main/java/io/netty/handler/codec/ByteToMessageDecoder.java" beforeDir="false" afterPath="$PROJECT_DIR$/codec/src/main/java/io/netty/handler/codec/ByteToMessageDecoder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/codec/src/main/java/io/netty/handler/codec/DelimiterBasedFrameDecoder.java" beforeDir="false" afterPath="$PROJECT_DIR$/codec/src/main/java/io/netty/handler/codec/DelimiterBasedFrameDecoder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/codec/src/main/java/io/netty/handler/codec/FixedLengthFrameDecoder.java" beforeDir="false" afterPath="$PROJECT_DIR$/codec/src/main/java/io/netty/handler/codec/FixedLengthFrameDecoder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/codec/src/main/java/io/netty/handler/codec/LineBasedFrameDecoder.java" beforeDir="false" afterPath="$PROJECT_DIR$/codec/src/main/java/io/netty/handler/codec/LineBasedFrameDecoder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/main/java/io/netty/util/concurrent/DefaultEventExecutorChooserFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/common/src/main/java/io/netty/util/concurrent/DefaultEventExecutorChooserFactory.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/main/java/io/netty/util/concurrent/DefaultPromise.java" beforeDir="false" afterPath="$PROJECT_DIR$/common/src/main/java/io/netty/util/concurrent/DefaultPromise.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/main/java/io/netty/util/concurrent/MultithreadEventExecutorGroup.java" beforeDir="false" afterPath="$PROJECT_DIR$/common/src/main/java/io/netty/util/concurrent/MultithreadEventExecutorGroup.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/main/java/io/netty/util/concurrent/SingleThreadEventExecutor.java" beforeDir="false" afterPath="$PROJECT_DIR$/common/src/main/java/io/netty/util/concurrent/SingleThreadEventExecutor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/main/java/io/netty/util/internal/PlatformDependent0.java" beforeDir="false" afterPath="$PROJECT_DIR$/common/src/main/java/io/netty/util/internal/PlatformDependent0.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/common/src/main/java/io/netty/util/internal/SocketUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/common/src/main/java/io/netty/util/internal/SocketUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microbench/src/main/java/io/netty/microbenchmark/common/IntObjectHashMapBenchmark.java" beforeDir="false" afterPath="$PROJECT_DIR$/microbench/src/main/java/io/netty/microbenchmark/common/IntObjectHashMapBenchmark.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/transport/src/main/java/io/netty/bootstrap/AbstractBootstrap.java" beforeDir="false" afterPath="$PROJECT_DIR$/transport/src/main/java/io/netty/bootstrap/AbstractBootstrap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/transport/src/main/java/io/netty/bootstrap/Bootstrap.java" beforeDir="false" afterPath="$PROJECT_DIR$/transport/src/main/java/io/netty/bootstrap/Bootstrap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/transport/src/main/java/io/netty/bootstrap/ServerBootstrap.java" beforeDir="false" afterPath="$PROJECT_DIR$/transport/src/main/java/io/netty/bootstrap/ServerBootstrap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/transport/src/main/java/io/netty/channel/AbstractChannel.java" beforeDir="false" afterPath="$PROJECT_DIR$/transport/src/main/java/io/netty/channel/AbstractChannel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/transport/src/main/java/io/netty/channel/AbstractChannelHandlerContext.java" beforeDir="false" afterPath="$PROJECT_DIR$/transport/src/main/java/io/netty/channel/AbstractChannelHandlerContext.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/transport/src/main/java/io/netty/channel/ChannelInitializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/transport/src/main/java/io/netty/channel/ChannelInitializer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/transport/src/main/java/io/netty/channel/ChannelOutboundHandlerAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/transport/src/main/java/io/netty/channel/ChannelOutboundHandlerAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/transport/src/main/java/io/netty/channel/DefaultChannelPipeline.java" beforeDir="false" afterPath="$PROJECT_DIR$/transport/src/main/java/io/netty/channel/DefaultChannelPipeline.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/transport/src/main/java/io/netty/channel/DefaultChannelPromise.java" beforeDir="false" afterPath="$PROJECT_DIR$/transport/src/main/java/io/netty/channel/DefaultChannelPromise.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/transport/src/main/java/io/netty/channel/MultithreadEventLoopGroup.java" beforeDir="false" afterPath="$PROJECT_DIR$/transport/src/main/java/io/netty/channel/MultithreadEventLoopGroup.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/transport/src/main/java/io/netty/channel/nio/AbstractNioByteChannel.java" beforeDir="false" afterPath="$PROJECT_DIR$/transport/src/main/java/io/netty/channel/nio/AbstractNioByteChannel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/transport/src/main/java/io/netty/channel/nio/AbstractNioChannel.java" beforeDir="false" afterPath="$PROJECT_DIR$/transport/src/main/java/io/netty/channel/nio/AbstractNioChannel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/transport/src/main/java/io/netty/channel/nio/NioEventLoop.java" beforeDir="false" afterPath="$PROJECT_DIR$/transport/src/main/java/io/netty/channel/nio/NioEventLoop.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/transport/src/main/java/io/netty/channel/socket/nio/NioServerSocketChannel.java" beforeDir="false" afterPath="$PROJECT_DIR$/transport/src/main/java/io/netty/channel/socket/nio/NioServerSocketChannel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/transport/src/main/java/io/netty/channel/socket/nio/NioSocketChannel.java" beforeDir="false" afterPath="$PROJECT_DIR$/transport/src/main/java/io/netty/channel/socket/nio/NioSocketChannel.java" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <option name="HIDDEN_KINDS">
+      <set />
+    </option>
+    <expand />
+    <select />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="$USER_HOME$/Downloads/software/apache-maven-3.5.0" />
+        <option name="userSettingsFile" value="$USER_HOME$/Downloads/software/apache-maven-3.5.0/conf/settings.xml" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="1enKGweBmhABaxQpRQp3vZ25syA" />
+  <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="MavenSettings" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="1fe3731e-c2d2-4bce-8dd0-cb36ad14002d" name="Default Changelist" comment="" />
+      <created>1594951824304</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1594951824304</updated>
+      <workItem from="1594951857269" duration="5648000" />
+      <workItem from="1595123708057" duration="5169000" />
+      <workItem from="1595208155052" duration="41851000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
