@@ -34,8 +34,10 @@ public class MultiMessageHandler extends AbstractChannelHandlerDelegate {
     @SuppressWarnings("unchecked")
     @Override
     public void received(Channel channel, Object message) throws RemotingException {
+        // 判断是否复合消息
         if (message instanceof MultiMessage) {
             MultiMessage list = (MultiMessage) message;
+            // 遍历进行单个调用
             for (Object obj : list) {
                 handler.received(channel, obj);
             }

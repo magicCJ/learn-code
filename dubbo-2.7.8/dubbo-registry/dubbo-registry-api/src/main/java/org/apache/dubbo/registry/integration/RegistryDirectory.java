@@ -270,6 +270,7 @@ public class RegistryDirectory<T> extends AbstractDirectory<T> implements Notify
     private void refreshOverrideAndInvoker(List<URL> urls) {
         // mock zookeeper://xxx?mock=return null
         overrideDirectoryUrl();
+        // 更新本地远程服务调用集合
         refreshInvoker(urls);
     }
 
@@ -335,7 +336,7 @@ public class RegistryDirectory<T> extends AbstractDirectory<T> implements Notify
 
             List<Invoker<T>> newInvokers = Collections.unmodifiableList(new ArrayList<>(newUrlInvokerMap.values()));
             // pre-route and build cache, notice that route cache should build on original Invoker list.
-            // toMergeMethodInvokerMap() will wrap some invokers having different groups, those wrapped invokers not should be routed.
+            // toMergeMethodInvokerMap() will wrap some invokers having different groups, those wrapped invokers not should be routed.`
             routerChain.setInvokers(newInvokers);
             // 合并多个组的 Invoker
             this.invokers = multiGroup ? toMergeInvokerList(newInvokers) : newInvokers;
@@ -476,7 +477,7 @@ public class RegistryDirectory<T> extends AbstractDirectory<T> implements Notify
                         enabled = url.getParameter(ENABLED_KEY, true);
                     }
                     if (enabled) {
-                        // 调用 refer 获取 Invoker
+                        // 调用 refer 获取 Invoker，InvokerDelegate 是对 Invoker 的委派
                         invoker = new InvokerDelegate<>(protocol.refer(serviceType, url), url, providerUrl);
                     }
                 } catch (Throwable t) {
@@ -642,6 +643,7 @@ public class RegistryDirectory<T> extends AbstractDirectory<T> implements Notify
         List<Invoker<T>> invokers = null;
         try {
             // Get invokers from cache, only runtime routers will be executed.
+            // 通过路由链去获取符合路由规则的invoker对象
             invokers = routerChain.route(getConsumerUrl(), invocation);
         } catch (Throwable t) {
             logger.error("Failed to execute router: " + getUrl() + ", cause: " + t.getMessage(), t);

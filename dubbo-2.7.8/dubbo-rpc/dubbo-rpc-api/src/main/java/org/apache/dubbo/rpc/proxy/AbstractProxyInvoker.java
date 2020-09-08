@@ -83,7 +83,9 @@ public abstract class AbstractProxyInvoker<T> implements Invoker<T> {
         try {
             // 调用 doInvoke 执行后续的调用，并将调用结果封装到 RpcResult 中。具体实现通过 JavassistProxyFactory 创建的
             Object value = doInvoke(proxy, invocation.getMethodName(), invocation.getParameterTypes(), invocation.getArguments());
-			CompletableFuture<Object> future = wrapWithFuture(value);
+			// 异步获取调用结果
+            CompletableFuture<Object> future = wrapWithFuture(value);
+            // 对调用结果进行判断是异常返回还是正常结果
             CompletableFuture<AppResponse> appResponseFuture = future.handle((obj, t) -> {
                 AppResponse result = new AppResponse();
                 if (t != null) {
@@ -97,6 +99,7 @@ public abstract class AbstractProxyInvoker<T> implements Invoker<T> {
                 }
                 return result;
             });
+            // 封装调用结果进行返回
             return new AsyncRpcResult(appResponseFuture, invocation);
         } catch (InvocationTargetException e) {
             if (RpcContext.getContext().isAsyncStarted() && !RpcContext.getContext().stopAsync()) {
