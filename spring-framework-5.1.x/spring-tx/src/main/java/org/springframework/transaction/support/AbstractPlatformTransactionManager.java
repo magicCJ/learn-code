@@ -339,6 +339,8 @@ public abstract class AbstractPlatformTransactionManager implements PlatformTran
 	 */
 	@Override
 	public final TransactionStatus getTransaction(@Nullable TransactionDefinition definition) throws TransactionException {
+		// 从当前的transactionManager获取DataSource对象，然后以该DataSource对象为Key
+		// 去一个ThreadLocal变量中的map中获取该DataSource的连接，然后设置到DataSourceTransactionObject中返回。
 		Object transaction = doGetTransaction();
 
 		// Cache debug flag to avoid repeated checks.
@@ -349,6 +351,7 @@ public abstract class AbstractPlatformTransactionManager implements PlatformTran
 			definition = new DefaultTransactionDefinition();
 		}
 
+		// 如果当前线程已经在一个事务中了，则需要根据事务的传播级别来决定如何处理并获取事务状态对象
 		if (isExistingTransaction(transaction)) {
 			// Existing transaction found -> check propagation behavior to find out how to behave.
 			return handleExistingTransaction(definition, transaction, debugEnabled);
@@ -372,10 +375,14 @@ public abstract class AbstractPlatformTransactionManager implements PlatformTran
 				logger.debug("Creating new transaction with name [" + definition.getName() + "]: " + definition);
 			}
 			try {
+				//如果当前不在一个事务中，则执行事务的准备操作
 				boolean newSynchronization = (getTransactionSynchronization() != SYNCHRONIZATION_NEVER);
+				// 构造事务状态对象,注意这里第三个参数为true,代表是一个新事务
 				DefaultTransactionStatus status = newTransactionStatus(
 						definition, transaction, true, newSynchronization, debugEnabled, suspendedResources);
+				//执行begin操作,核心操作是设置隔离级别，执行 conn.setAutoCommit(false); 同时将数据连接绑定到当前线程
 				doBegin(transaction, definition);
+				// 针对事务相关属性如隔离级别，是否在事务中，设置绑定到当前线程
 				prepareSynchronization(status, definition);
 				return status;
 			}
@@ -402,21 +409,25 @@ public abstract class AbstractPlatformTransactionManager implements PlatformTran
 			TransactionDefinition definition, Object transaction, boolean debugEnabled)
 			throws TransactionException {
 
+		//如果是NEVER传播级别则抛出异常
 		if (definition.getPropagationBehavior() == TransactionDefinition.PROPAGATION_NEVER) {
 			throw new IllegalTransactionStateException(
 					"Existing transaction found for transaction marked with propagation 'never'");
 		}
 
+		// 如果是不支持，则挂起事务
 		if (definition.getPropagationBehavior() == TransactionDefinition.PROPAGATION_NOT_SUPPORTED) {
 			if (debugEnabled) {
 				logger.debug("Suspending current transaction");
 			}
 			Object suspendedResources = suspend(transaction);
 			boolean newSynchronization = (getTransactionSynchronization() == SYNCHRONIZATION_ALWAYS);
+			//挂起事务同时将当前事务设置为null,newTransaction设置为false，把线程的相关Threadlocal变量改的就像当前不存在事务一样
 			return prepareTransactionStatus(
 					definition, null, false, newSynchronization, debugEnabled, suspendedResources);
 		}
 
+		//如果是required_NEW的话，则挂起当前事务，同时创建一个新的事务，执行doBegin操作
 		if (definition.getPropagationBehavior() == TransactionDefinition.PROPAGATION_REQUIRES_NEW) {
 			if (debugEnabled) {
 				logger.debug("Suspending current transaction, creating new transaction with name [" +
@@ -437,6 +448,7 @@ public abstract class AbstractPlatformTransactionManager implements PlatformTran
 			}
 		}
 
+		// 如果是嵌入事务，则创建一个SAVEPOINT
 		if (definition.getPropagationBehavior() == TransactionDefinition.PROPAGATION_NESTED) {
 			if (!isNestedTransactionAllowed()) {
 				throw new NestedTransactionNotSupportedException(
@@ -472,6 +484,8 @@ public abstract class AbstractPlatformTransactionManager implements PlatformTran
 		if (debugEnabled) {
 			logger.debug("Participating in existing transaction");
 		}
+		// 这里判断是否需要对已经存在的事务进行校验，这个可以通过AbstractPlatformTransactionManager.setValidateExistingTransaction(boolean)来设置
+		// 设置为true后需要校验当前事务的隔离级别和已经存在的事务的隔离级别是否一致
 		if (isValidateExistingTransaction()) {
 			if (definition.getIsolationLevel() != TransactionDefinition.ISOLATION_DEFAULT) {
 				Integer currentIsolationLevel = TransactionSynchronizationManager.getCurrentTransactionIsolationLevel();
@@ -491,6 +505,8 @@ public abstract class AbstractPlatformTransactionManager implements PlatformTran
 				}
 			}
 		}
+		// 如果不设置是否校验已经存在的事务，则对于REQUIRED传播级别会走到这里来，这里把newTransaction标志位设置为false,
+		// 这里用的definition是当前事务的相关属性，所以隔离级别等依然是当前事务的（子事务），而不是已经存在的事务的隔离级别（父事务）
 		boolean newSynchronization = (getTransactionSynchronization() != SYNCHRONIZATION_NEVER);
 		return prepareTransactionStatus(definition, transaction, false, newSynchronization, debugEnabled, null);
 	}
@@ -558,8 +574,7 @@ public abstract class AbstractPlatformTransactionManager implements PlatformTran
 
 
 	/**
-	 * Suspend the given transaction. Suspends transaction synchronization first,
-	 * then delegates to the {@code doSuspend} template method.
+	 * 暂停给定的事务。首先暂停事务同步，然后委托给{@code doSuspend}模板方法。
 	 * @param transaction the current transaction object
 	 * (or {@code null} to just suspend active synchronizations, if any)
 	 * @return an object that holds suspended resources
@@ -569,6 +584,7 @@ public abstract class AbstractPlatformTransactionManager implements PlatformTran
 	 */
 	@Nullable
 	protected final SuspendedResourcesHolder suspend(@Nullable Object transaction) throws TransactionException {
+		// 判断当前事务是否处于活动状态
 		if (TransactionSynchronizationManager.isSynchronizationActive()) {
 			List<TransactionSynchronization> suspendedSynchronizations = doSuspendSynchronization();
 			try {
@@ -595,7 +611,9 @@ public abstract class AbstractPlatformTransactionManager implements PlatformTran
 		}
 		else if (transaction != null) {
 			// Transaction active but no synchronization active.
+			// 挂起当前事务的资源，事务同步将被暂停
 			Object suspendedResources = doSuspend(transaction);
+			// 返回被挂起的资源信息，用于后续恢复
 			return new SuspendedResourcesHolder(suspendedResources);
 		}
 		else {
@@ -1106,8 +1124,7 @@ public abstract class AbstractPlatformTransactionManager implements PlatformTran
 			throws TransactionException;
 
 	/**
-	 * Suspend the resources of the current transaction.
-	 * Transaction synchronization will already have been suspended.
+	 * 挂起当前事务的资源，事务同步将已经被暂停。
 	 * <p>The default implementation throws a TransactionSuspensionNotSupportedException,
 	 * assuming that transaction suspension is generally not supported.
 	 * @param transaction transaction object returned by {@code doGetTransaction}
